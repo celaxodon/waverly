@@ -1,4 +1,4 @@
-defmodule Waverly.Wave do
+defmodule Wave do
   @moduledoc """
   This module contains the Wave struct, which defines fields for the WAVE file 
   audio format.
