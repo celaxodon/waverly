@@ -3,12 +3,12 @@ defmodule Waverly do
   Waverly is a WAVE file encoder/decoder
   """
 
-  @spec reader(String.t) :: {:ok, binary} | {:error, String.t}
+  @spec read(String.t) :: {:ok, binary} | {:error, String.t}
   @doc """
   Reads a WAVE file and returns binary data with {:ok, data}, or {:error, reason}
   `data` contains a Map of the WAVE file header information.
   """
-  def reader(path) do
+  def read(path) do
     with true <- String.ends_with?(path, ".wav"),
          {:ok, data} <- File.read(path),
          do: {:ok, data}
@@ -18,16 +18,13 @@ defmodule Waverly do
       error -> error
   end
 
-  # TODO: Extract header separately from audio data?
-
   @spec parser([char]) :: map
   @doc """
   `parser` returns a map of headers and data for bitstring file data
   """
   def parser(file_data) when is_bitstring(file_data) do
-    # TODO: Figure out if we need to specify the type of the binary data, e.g., big-integer-size(32)
-    # TODO: Handle RIFX (big-endian encoded) files. Not the default, and I'm not sure how common this is,
-    # but I've read it's possible
+    # TODO: Need to specify the type of the binary data, e.g., big-integer-size(32)?
+    # TODO: Handle RIFX (big-endian encoded) files. Not default, not sure how common this is...
 
     ### RIFF (Resource Interchange File Format) chunk descriptor ###
     # Should contain the letters "RIFF" in ASCII form (0x52494646)
@@ -86,36 +83,19 @@ defmodule Waverly do
       subchunk2_size::little-size(32),
       audio_data::little-binary>> = file_data # Actual sound data - little endian
 
-    %Wave{}
-    |> Map.put(:chunk_id, chunk_id)
-    |> Map.put(:chunk_size, chunk_size)
-    |> Map.put(:format, format)
-    |> Map.put(:subchunk1_id, subchunk1_id)
-    |> Map.put(:subchunk1_size, subchunk1_size)
-    |> Map.put(:audio_format, audio_format)
-    |> Map.put(:num_channels, num_channels)
-    |> Map.put(:sample_rate, sample_rate)
-    |> Map.put(:byte_rate, byte_rate)
-    |> Map.put(:block_align, block_align)
-    |> Map.put(:bits_per_sample, bits_per_sample)
-    |> Map.put(:subchunk2_id, subchunk2_id)
-    |> Map.put(:subchunk2_size, subchunk2_size)
-    |> Map.put(:audio_data, audio_data)
-  end
-
-  @spec writer(binary) :: {:ok, binary} | {:err, String.t}
-  @doc """
-  Generates a WAVE file audio object with little-endian encoded format (RIFF)
-  """
-  def writer(_wav_struct) do
-    :not_implemented
-  end
-
-  @spec writer(binary, String.t) :: :ok | {:err, String.t}
-  @doc """
-  Writes a WAVE file to disk
-  """
-  def writer(_wav_struct, _path) do
-    :not_implemented
+      %Wave{chunk_id: chunk_id,
+            chunk_size: chunk_size,
+            format: format,
+            subchunk1_id: subchunk1_id,
+            subchunk1_size: subchunk1_size,
+            audio_format: audio_format,
+            num_channels: num_channels,
+            sample_rate: sample_rate,
+            byte_rate: byte_rate,
+            block_align: block_align,
+            bits_per_sample: bits_per_sample,
+            subchunk2_id: subchunk2_id,
+            subchunk2_size: subchunk2_size,
+            audio_data: audio_data}
   end
 end
