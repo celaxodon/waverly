@@ -53,15 +53,15 @@ defmodule Waverly do
       audio_format::little-size(16),
       # Mono = 1, Stereo = 2, etc.
       # 2 bytes (22-23) - little endian
-      num_channels::little-size(16),
+      channels::little-size(16),
       # E.g., 8000, 44_100, etc.
       # 4 bytes (24-27) - little endian
       sample_rate::little-size(32),
-      # equal to sample_rate * num_channels * bits_per_sample / 8
+      # equal to sample_rate * channels * bits_per_sample / 8
       # 4 bytes - (28-31) - little endian
       byte_rate::little-size(32),
       # The number of bytes for one sample, including all channels.
-      # equal to num_channels * bits_per_sample / 8
+      # equal to channels * bits_per_sample / 8
       # 2 bytes - (32-33) - little endian
       block_align::little-size(16),
       # 8 bits = 8, 16 bits = 16, etc.
@@ -78,7 +78,7 @@ defmodule Waverly do
       subchunk2_id::big-size(32),
       # The number of bytes in the data. Can think of as the size of the read
       # of the subchunk following this number
-      # equal to the num_samples * num_channels * bits_per_sample / 8
+      # equal to the num_samples * channels * bits_per_sample / 8
       # 4 bytes (40-43) - little endian
       subchunk2_size::little-size(32),
       audio_data::little-binary>> = file_data # Actual sound data - little endian
@@ -89,7 +89,7 @@ defmodule Waverly do
             subchunk1_id: subchunk1_id,
             subchunk1_size: subchunk1_size,
             audio_format: audio_format,
-            num_channels: num_channels,
+            channels: channels,
             sample_rate: sample_rate,
             byte_rate: byte_rate,
             block_align: block_align,
