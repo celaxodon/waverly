@@ -10,12 +10,14 @@ defmodule Waverly do
   """
   def read(path) do
     with true <- String.ends_with?(path, ".wav"),
-         {:ok, data} <- File.read(path),
-         do: {:ok, data}
+         {:ok, data} <- File.read(path)
+    do
+      {:ok, data}
     else
       false -> {:error, "This library only accepts WAV files"}
       {:error, :enoent} -> {:error, "#{path} does not exist"}
       error -> error
+    end
   end
 
   @spec parser([char]) :: map
