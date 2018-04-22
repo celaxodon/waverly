@@ -23,7 +23,7 @@ defmodule WaveTest do
     assert 0x52494646 == riff_hex_val
     # "WAVE" == 0x57 0x41 0x56 0x45 == 57415645
     assert Map.get(wave, :format) == 0x57415645
-    {wave_hex_val, _} = Integer.parse(Base.encode16("WAVE"))
+    {wave_hex_val, _} = Integer.parse(Base.encode16("WAVE"), 16)
     assert 0x57415645 == wave_hex_val
     # "DATA" == 0x44 0x41 0x54 0x41 == 44415441
     assert Map.get(wave, :subchunk2_id) == 0x64617461
