@@ -31,7 +31,6 @@ install:
 script:
   - mix clean
   - mix test
-  - mix dialyzer --halt-exit-status
 
 after_script:
   - mix coveralls.travis
