@@ -29,10 +29,17 @@ install:
   - mix deps.get
 
 script:
+  - mix clean
   - mix test
+  - mix dialyzer --halt-exit-status
 
 after_script:
   - mix coveralls.travis
+
+cache:
+  directories:
+    - _build
+    - deps
 
 notifications:
   recipients:
