@@ -20,8 +20,7 @@ matrix:
 #   - sudo apt-get install elixir
 
 env:
-  matrix:
-    - MIX_ENV=test
+  - MIX_ENV=test
 
 install:
   - mix local.hex --force
@@ -33,7 +32,7 @@ script:
   - mix test
 
 after_script:
-  - mix coveralls.travis
+  - mix coveralls.travis -t $REPO_TOKEN
 
 cache:
   directories:

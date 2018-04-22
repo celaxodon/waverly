@@ -1,6 +1,7 @@
 # Waverly
 
 [![Build Status](https://travis-ci.org/celaxodon/waverly.svg?branch=master)](https://travis-ci.org/celaxodon/waverly)
+[![Coverage Status](https://coveralls.io/repos/github/celaxodon/waverly/badge.svg?branch=master)](https://coveralls.io/github/celaxodon/waverly?branch=master)
 
 Waverly is a WAVE file encoder/decoder. It parses WAVE files, extracting headers and audio data
 and can also encode audio data in WAVE file formats for storage or to pass onto other applications
